@@ -20,6 +20,12 @@ public class SmartLocation {
      * The default action name is com.mobivery.smartlocation.greent.LOCATION_UPDATED
      */
     public static final String LOCATION_BROADCAST_INTENT_TRAIL = ".LOCATION_UPDATED";
+    
+    public static final String LOCATION_BROADCAST_CONNECTED = ".CONNECTED";
+    
+    public static final String LOCATION_BROADCAST_DISCONNECTED = ".DISCONNECTED";
+    
+    public static final String LOCATION_BROADCAST_CONNECTION_FAILED = ".CONNECTION_FAILED";
 
     public static final String DEFAULT_PACKAGE = "com.mobivery.smartlocation.greent";
 
@@ -32,6 +38,8 @@ public class SmartLocation {
      * Detected activity for the intent bundle. Returns a DetectedActivity integer.
      */
     public static final String DETECTED_ACTIVITY_KEY = "ACTIVITY";
+
+
 
     private boolean isServiceBound = false;
     private boolean isServiceConnected = false;

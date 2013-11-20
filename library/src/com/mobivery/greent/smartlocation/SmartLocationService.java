@@ -22,7 +22,8 @@ import com.google.android.gms.location.LocationRequest;
 /**
  * Created by Nacho L. on 13/06/13.
  */
-public class SmartLocationService extends Service implements LocationListener, GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener {
+public class SmartLocationService extends Service implements LocationListener, GooglePlayServicesClient.ConnectionCallbacks, 
+GooglePlayServicesClient.OnConnectionFailedListener {
 
     public static final String PREFERENCES_FILE = "SMART_LOCATION_CACHE_PREFERENCES";
     public static final String LAST_LOCATION_LATITUDE_KEY = "LAST_LOCATION_LATITUDE";
@@ -150,6 +151,18 @@ public class SmartLocationService extends Service implements LocationListener, G
     public String getLocationUpdatedIntentName() {
         return callerPackage + SmartLocation.LOCATION_BROADCAST_INTENT_TRAIL;
     }
+    
+    public String getConnectedIntentName() {
+        return callerPackage + SmartLocation.LOCATION_BROADCAST_CONNECTED;
+    }
+    
+    public String getDisonnectedIntentName() {
+        return callerPackage + SmartLocation.LOCATION_BROADCAST_DISCONNECTED;
+    }
+    
+    public String getConnectionFailedIntentName() {
+        return callerPackage + SmartLocation.LOCATION_BROADCAST_CONNECTION_FAILED;
+    }
 
     private BroadcastReceiver activityUpdatesReceiver = new BroadcastReceiver() {
         @Override
@@ -190,19 +203,30 @@ public class SmartLocationService extends Service implements LocationListener, G
     @Override
     public void onConnected(Bundle bundle) {
         Log.v(getClass().getSimpleName(), "[LOCATION] connected");
-
+		String intentName = getConnectedIntentName();
+		Intent broadcastIntent = new Intent();
+		broadcastIntent.setAction(intentName);
+		getApplicationContext().sendBroadcast(broadcastIntent);
         continueStartLocation();
     }
 
     @Override
     public void onDisconnected() {
         Log.v(getClass().getSimpleName(), "[LOCATION] disconnected");
+        String intentName = getDisonnectedIntentName();
+		Intent broadcastIntent = new Intent();
+		broadcastIntent.setAction(intentName);
+		getApplicationContext().sendBroadcast(broadcastIntent);
 
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         Log.v(getClass().getSimpleName(), "[LOCATION] connectionFailed");
+        String intentName = getConnectionFailedIntentName();
+		Intent broadcastIntent = new Intent();
+		broadcastIntent.setAction(intentName);
+		getApplicationContext().sendBroadcast(broadcastIntent);
     }
 
     private void storeLastLocation(Location location) {
